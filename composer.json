@@ -1,0 +1,25 @@
+{
+    "name": "liqiangchao/middle-office-file-upload",
+    "description": "oss/s3文件上传",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Lqc\\MiddleOfficeFileUpload\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "李强超",
+            "email": "15838952986@163.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require-dev": {
+        "laravel/pint": "^1.10"
+    },
+    "require": {
+        "iidestiny/laravel-filesystem-oss": "v3.3",
+        "league/flysystem-aws-s3-v3": "^3.0"
+    }
+}
