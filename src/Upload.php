@@ -122,6 +122,9 @@ class Upload
         $path = $dir.$rename;
         $bool = $this->Adapter->put($path, file_get_contents($file));
         if ($bool) {
+            if(is_numeric($this->getTime($this->time))){
+                return ['success' => true, 'relative_path'=>$path ,'url' => $this->Adapter->signUrl($path,$this->getTime($this->time))];
+            }
             return ['success' => true, 'relative_path'=>$path ,'url' => $this->Adapter->temporaryUrl($path,$this->getTime($this->time),$option)];
         }
         return ['success' => false, 'message' => '上传失败'];
@@ -149,6 +152,9 @@ class Upload
         }
         $bool = $this->Adapter->exists($path);
         if($bool){
+            if(is_numeric($this->getTime($time))){
+                return ['success' => true, 'url' => $this->Adapter->signUrl($path,$this->getTime($time))];
+            }
             return ['success' => true, 'url' => $this->Adapter->temporaryUrl($path,$this->getTime($time),$option)];
         }
         return ['success' => false, 'message' => '文件不存在'];
