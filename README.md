@@ -11,19 +11,22 @@ oss/s3上传
 
 #### env 配置
 
-FILESYSTEM_DISK=oss  
+--FILESYSTEM_DISK=oss  
 
-OSS_ACCESS_KEY=
-OSS_SECRET_KEY=
-OSS_ENDPOINT=
-OSS_BUCKET=
+--OSS_ACCESS_KEY=
 
-AWS_ACCESS_KEY_ID=
-AWS_SECRET_ACCESS_KEY=
-AWS_DEFAULT_REGION=
-AWS_BUCKET=
-AWS_ENDPOINT=
-AWS_USE_PATH_STYLE_ENDPOINT=false
+--OSS_SECRET_KEY=
+
+--OSS_ENDPOINT=
+
+--OSS_BUCKET=
+
+--AWS_ACCESS_KEY_ID=
+--AWS_SECRET_ACCESS_KEY=
+--AWS_DEFAULT_REGION=
+--AWS_BUCKET=
+--AWS_ENDPOINT=
+--AWS_USE_PATH_STYLE_ENDPOINT=false
 
 #### filesystems.php 配置
 
@@ -51,18 +54,20 @@ AWS_USE_PATH_STYLE_ENDPOINT=false
 
 #### 使用
 图片上传
---$res = (new Upload())->uploadImg($request->file('file'));
---响应
---array:3 [
---  "success" => true
---  "relative_path" => "bmo_mr_api/2023-09-01/169356700974888.jpg"
---  "url" => "https://bmo-notice-api.cq4oss.ctyunxs.cn/bmo_mr_api/2023-09-01/169356700974888.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=FXO9mdZow6tPtrSAEQpZ%2F20230901%2Fap-southeast-1%2Fs3%2Faws4_request&X-Amz-Date=20230901T111650Z&X-Amz-SignedHeaders=host&X-Amz-Expires=3600&X-Amz-Signature=98f0001affb9b05e574270baa6653acd08947a24756ffbadd00678f2d587cb36"
---]
+$res = (new Upload())->uploadImg($request->file('file'));
+响应
 
-$res = (new Upload())->getSignPath($relative_path)
+array:3 [
+  "success" => true
+  "relative_path" => "bmo_mr_api/2023-09-01/169356700974888.jpg"
+  "url" => "https://bmo-notice-api.cq4oss.ctyunxs.cn/bmo_mr_api/2023-09-01/169356700974888.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=FXO9mdZow6tPtrSAEQpZ%2F20230901%2Fap-southeast-1%2Fs3%2Faws4_request&X-Amz-Date=20230901T111650Z&X-Amz-SignedHeaders=host&X-Amz-Expires=3600&X-Amz-Signature=98f0001affb9b05e574270baa6653acd08947a24756ffbadd00678f2d587cb36"
+]
+
+$res = (new Upload())->getSignPath($relative_path);
+
 array:2 [
   "success" => true
   "url" => "https://bmo-notice-api.cq4oss.ctyunxs.cn/bmo_mr_api/2023-09-01/169356700974888.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=FXO9mdZow6tPtrSAEQpZ%2F20230901%2Fap-southeast-1%2Fs3%2Faws4_request&X-Amz-Date=20230901T111650Z&X-Amz-SignedHeaders=host&X-Amz-Expires=3600&X-Amz-Signature=98f0001affb9b05e574270baa6653acd08947a24756ffbadd00678f2d587cb36"
 ]
 
-具体参数看文档
+具体参数看方法
