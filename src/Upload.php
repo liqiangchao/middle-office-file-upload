@@ -17,6 +17,10 @@ class Upload
      */
     private array $ext = ['jpg', 'jpeg', 'png'];
 
+    /**
+     * 文件后缀
+     * @var string
+     */
     private string $et;
 
     /**
@@ -24,10 +28,9 @@ class Upload
      * @var int
      */
     private int $time = 3600;
+
     /**
-     * 限定驱动类型
-     *
-     * @var array|string[]
+     * @var string
      */
 
     private string $disk;
