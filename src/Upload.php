@@ -10,36 +10,31 @@ use Illuminate\Support\Facades\Storage;
 
 class Upload
 {
-    /**
-     * 限定上传格式
-     *
-     * @var array|string[]
-     */
-    private array $ext = ['jpg', 'jpeg', 'png'];
+    private $ext = ['jpg', 'jpeg', 'png'];
 
     /**
      * 文件后缀
      * @var string
      */
-    private string $et;
+    private  $et;
 
     /**
      * 图片连接的默认有效时间
      * @var int
      */
-    private int $time = 3600;
+    private  $time = 3600;
 
     /**
      * @var string
      */
 
-    private string $disk;
+    private  $disk;
 
     /**
      * 源操作对象
      * @var FilesystemAdapter
      */
-    protected FilesystemAdapter $Adapter;
+    protected  $Adapter;
 
 
 
@@ -122,9 +117,6 @@ class Upload
         $path = $dir.$rename;
         $bool = $this->Adapter->put($path, file_get_contents($file));
         if ($bool) {
-            if(is_numeric($this->getTime($this->time))){
-                return ['success' => true, 'relative_path'=>$path ,'url' => $this->Adapter->signUrl($path,$this->getTime($this->time))];
-            }
             return ['success' => true, 'relative_path'=>$path ,'url' => $this->Adapter->temporaryUrl($path,$this->getTime($this->time),$option)];
         }
         return ['success' => false, 'message' => '上传失败'];
@@ -146,15 +138,11 @@ class Upload
         }
 
         $res = $this->checkDisk($disk);
-
         if(!$res['success']){
             return $res;
         }
-        $bool = $this->Adapter->exists($path);
+        $bool = Storage::disk($this->disk)->exists($path);
         if($bool){
-            if(is_numeric($this->getTime($time))){
-                return ['success' => true, 'url' => $this->Adapter->signUrl($path,$this->getTime($time))];
-            }
             return ['success' => true, 'url' => $this->Adapter->temporaryUrl($path,$this->getTime($time),$option)];
         }
         return ['success' => false, 'message' => '文件不存在'];
@@ -167,10 +155,11 @@ class Upload
      * @return \Illuminate\Support\Carbon|int
      */
     private function getTime(int $time){
-        $disks = config('filesystems.disks');
-        if(array_key_exists('driver',$disks[$this->disk]) &&  $disks[$this->disk]['driver'] == 's3'){
-            $time = Date::now()->addSeconds($time);
-        }
+//        $disks = config('filesystems.disks');
+//        if(array_key_exists('driver',$disks[$this->disk]) &&  $disks[$this->disk]['driver'] == 's3'){
+//            $time = Carbon::now()->addSeconds($time);
+//        }
+        $time = Date::now()->addSeconds($time);
         return $time;
     }
 
