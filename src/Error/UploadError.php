@@ -29,5 +29,6 @@ class UploadError
      * 配置错误
      */
     public const FILE_DISK_CONFIG_ERROR = '配置错误';
+    public const FILE_UPLOAD_ERROR = '上传失败';
 
 }

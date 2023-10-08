@@ -44,16 +44,18 @@ class UploadFile
     }
 
 
-
+    /**
+     * @throws UploadException
+     */
     protected function checkDisk(): void
     {
         if(empty($this->disk)){
-            new UploadException(UploadError::FILE_DISK);
+            throw new UploadException(UploadError::FILE_DISK);
         }
 
         $disks = config('filesystems.disks');
         if(!array_key_exists($this->disk,$disks) || !array_key_exists('driver',$disks[$this->disk]) || !in_array($disks[$this->disk]['driver'],$this->driver)){
-            new UploadException(UploadError::FILE_DISK_CONFIG_ERROR);
+            throw new UploadException(UploadError::FILE_DISK_CONFIG_ERROR);
         }
     }
 
@@ -66,17 +68,17 @@ class UploadFile
     protected function checkFile($file): void
     {
         if (empty($file)) {
-            new UploadException(UploadError::FILE_EMPTY);
+            throw new UploadException(UploadError::FILE_EMPTY);
         }
 
         $fileSize = $file->getSize();
         if ($fileSize > $this->maxSize) {
-            new UploadException(UploadError::FILE_MAX_SIZE);
+            throw new UploadException(UploadError::FILE_MAX_SIZE);
         }
 
         $ext = $file->getClientOriginalExtension();
         if (! in_array($ext, $this->ext)) {
-            new UploadException(UploadError::FILE_TYPE);
+            throw new UploadException(UploadError::FILE_TYPE);
         }
 
         $this->et = $ext;
@@ -104,9 +106,9 @@ class UploadFile
         $path = $dir.$rename;
         $bool = Storage::disk($this->disk)->put($path, file_get_contents($file));
         if ($bool) {
-            return ['success' => true, 'relative_path'=>$path ,'url' => Storage::disk($this->disk)->temporaryUrl($path,$this->getTime($this->time),$option)];
+            return ['relative_path'=>$path ,'url' => Storage::disk($this->disk)->temporaryUrl($path,$this->getTime($this->time),$option)];
         }
-        return ['success' => false, 'message' => '上传失败'];
+        throw new UploadException(UploadError::FILE_UPLOAD_ERROR);
 
     }
 
