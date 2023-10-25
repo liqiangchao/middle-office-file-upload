@@ -12,27 +12,22 @@ use Illuminate\Support\Facades\Date;
 class UploadFile
 {
 
-    /**
-     * 限定上传格式
-     *
-     * @var array|string[]
-     */
-    private array $ext = ['jpg', 'jpeg', 'png'];
+    private $ext = ['jpg', 'jpeg', 'png'];
 
-    private string $et;
+    private $et;
 
     /**
      * 图片连接的默认有效时间
      * @var int
      */
-    private int $time = 3600;
+    private $time = 3600;
 
-    private int $maxSize = 3 * 1024 * 1024;
+    private $maxSize = 3 * 1024 * 1024;
     /**
-     * @var mixed|string
+     * @var string
      */
-    private string $disk;
-    private array $driver = ['oss', 's3'];
+    private $disk;
+    private $driver = ['oss', 's3'];
 
     public function __construct($disk = '')
     {
@@ -128,22 +123,24 @@ class UploadFile
     /**
      * 获得签名路径
      * @param string $path 相对路径
-     * @param int $time 秒
      * @param array $option 设置获取图片的宽高 等  参考看文档
      * @return array
      */
-    public function getSignPath(string $path, $disk = '', int $time = 3600, array $option = [])
+    public function getSignPath(string $path, array $option = [])
     {
 
         if (empty($path)) {
-            return ['success' => false, 'message' => '路径不能为空'];
+            throw new UploadException(UploadError::FILE_UPLOAD_PATH_ERROR);
+
         }
         $bool = Storage::disk($this->disk)->exists($path);
         if ($bool) {
-            return ['success' => true, 'url' => Storage::disk($this->disk)->temporaryUrl($path, $this->getTime($time), $option)];
+            return ['relative_path'=>$path ,'url' => Storage::disk($this->disk)->temporaryUrl($path,$this->getTime($this->time),$option)];
+
         }
-        return ['success' => false, 'message' => '文件不存在'];
+        throw new UploadException(UploadError::FILE_NOT_EXIST);
     }
+
 
 
     /**

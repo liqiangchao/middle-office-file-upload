@@ -35,14 +35,13 @@ class UploadError
     public const FILE_UPLOAD_ERROR = '上传失败';
 
     /**
-     * 驱动错误
+     * 路径不能为空
      */
-    public const FILE_UPLOAD_DISK_ERROR = '驱动错误';
-
+    public const FILE_UPLOAD_PATH_ERROR = '路径不能为空';
 
     /**
-     * 类型错误
+     * 文件不存在
      */
-    public const FILE_UPLOAD_TYPE_ERROR = '类型错误';
+    public const FILE_NOT_EXIST = '文件不存在';
 
 }
