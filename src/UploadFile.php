@@ -113,10 +113,7 @@ class UploadFile
      */
     private function getTime(int $time)
     {
-        $disks = config('filesystems.disks');
-        if (array_key_exists('driver', $disks[$this->disk]) && $disks[$this->disk]['driver'] == 's3') {
-            $time = Date::now()->addSeconds($time);
-        }
+        $time = Date::now()->addSeconds($time);
         return $time;
     }
 
