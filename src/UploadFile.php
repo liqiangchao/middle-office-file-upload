@@ -99,7 +99,7 @@ class UploadFile
             $rename = $rename . '.' . $this->et;
         }
         $path = $dir . $rename;
-        $bool = Storage::disk($this->disk)->put($path, file_get_contents($file));
+        $bool = Storage::disk($this->disk)->put($path, file_get_contents($file),['visibility'=>'private']);
         if ($bool) {
             return ['relative_path' => $path, 'url' => Storage::disk($this->disk)->temporaryUrl($path, $this->getTime($this->time), $option)];
         }
