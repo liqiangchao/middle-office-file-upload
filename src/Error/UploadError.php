@@ -30,5 +30,7 @@ class UploadError
      */
     public const FILE_DISK_CONFIG_ERROR = '配置错误';
     public const FILE_UPLOAD_ERROR = '上传失败';
+    public const FILE_NOT_EXIST = '文件不存在';
+    public const FILE_UPLOAD_PATH_ERROR = '上传路径错误';
 
 }
