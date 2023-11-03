@@ -104,7 +104,7 @@ class UploadFile
             $rename = $rename.'.'.$this->et;
         }
         $path = $dir.$rename;
-        $bool = Storage::disk($this->disk)->put($path, file_get_contents($file));
+        $bool = Storage::disk($this->disk)->put($path, file_get_contents($file),['visibility'=>'private']);
         if ($bool) {
             return ['relative_path'=>$path ,'url' => Storage::disk($this->disk)->temporaryUrl($path,$this->getTime($this->time),$option)];
         }
@@ -124,7 +124,20 @@ class UploadFile
         return $time;
     }
 
+    public function getSignPath(string $path, array $option = [])
+    {
 
+        if (empty($path)) {
+            throw new UploadException(UploadError::FILE_UPLOAD_PATH_ERROR);
+
+        }
+        $bool = Storage::disk($this->disk)->exists($path);
+        if ($bool) {
+            return ['relative_path'=>$path ,'url' => Storage::disk($this->disk)->temporaryUrl($path,$this->getTime($this->time),$option)];
+
+        }
+        throw new UploadException(UploadError::FILE_NOT_EXIST);
+    }
 
 
 
